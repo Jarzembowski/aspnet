@@ -69,6 +69,28 @@ namespace Vidly.Controllers
          return Content(year + "/" + month);
       }
 
+        
+    public ActionResult Customers() { 
+
+
+            var customers = new List<Customer> {
+
+                new Customer { name = "Customer 1",Id= 1},
+                new Customer { name = "Customer 2",Id= 2},
+                new Customer { name = "Customer 3",Id= 3}
+            };
+  
+            return View(customers);
+    }
+
+
+        [Route("movies/customerdetails/{id}/{name}")]
+        public ActionResult CustomerDetails(int id, string name)
+        {
+            return Content(String.Format("id = {0} - name = {1}" ,id,name));
+        }
+
+
 
     }
 }

@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "Customers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Customers</h2>
+
+@foreach (var customer in Model)
+{
+
+    <li>
+        @customer.name -
+        @Html.ActionLink("Link", "CustomerDetails", "Movies", new { id = @customer.Id, name = @customer.name}, null)
+    </li>
+
+}
+
