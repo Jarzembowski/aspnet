@@ -32,7 +32,7 @@ namespace Vidly.Controllers
             //Eager loading - carrega os objetos relacionados ao objeto principal
             var customers = _context.Customers.Include(c => c.membershipType).ToList();
 
-            return View(customers);
+            return View();
         }
         
         public ActionResult Details(int id)
