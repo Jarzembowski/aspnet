@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Customers</h2>
+
+
+<table class="table-striped table-bordered table-responsive" style="width:70%">
+    <thead>
+        <tr>
+            <th>Customer</th>
+            <th>Membership Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var customer in Model)
+
+            {
+
+                <tr>
+                    <td>
+                        @Html.ActionLink((string)customer.name, "Details", "Customer", new { id = @customer.Id}, null)
+                    </td>
+                    <td>
+                        @customer.membershipType.name
+                    </td>
+                </tr>
+
+            }
+        }
+        else {
+            <tr>
+                <td colspan ="2">No customers found.</td>
+            </tr>
+        }
+    </tbody>
+</table>

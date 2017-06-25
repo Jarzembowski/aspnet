@@ -10,6 +10,7 @@ namespace Vidly.Controllers
 {
     public class MoviesController : Controller
     {
+
         // GET: /Movies/random
         public ActionResult Random()
         {
@@ -82,12 +83,20 @@ namespace Vidly.Controllers
   
             return View(customers);
     }
+        
 
-
-        [Route("movies/customerdetails/{id}/{name}")]
-        public ActionResult CustomerDetails(int id, string name)
+        public ActionResult CustomerDetails(int id)
         {
-            return Content(String.Format("id = {0} - name = {1}" ,id,name));
+
+            var customers = new List<Customer> {
+
+                new Customer { name = "Customer 1",Id= 1},
+                new Customer { name = "Customer 2",Id= 2},
+                new Customer { name = "Customer 3",Id= 3}
+            };
+
+            
+            return View(customers.Find(i => i.Id == id));
         }
 
 

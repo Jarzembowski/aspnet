@@ -6,13 +6,18 @@
 
 <h2>Customers</h2>
 
-@foreach (var customer in Model)
-{
+<table class="table-striped">
 
-    <li>
-        @customer.name -
-        @Html.ActionLink("Link", "CustomerDetails", "Movies", new { id = @customer.Id, name = @customer.name}, null)
-    </li>
+    @foreach (var customer in Model)
 
-}
+    {
 
+    <tr>
+        <td>
+            @customer.name -
+            @Html.ActionLink("Link", "CustomerDetails", "Movies", new { id = @customer.Id }, null)
+        </td>
+    </tr>
+
+    }
+</table>
