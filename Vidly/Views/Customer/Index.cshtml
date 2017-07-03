@@ -6,7 +6,7 @@
 <h2>Customers</h2>
 
 
-<table class="table-striped table-bordered table-responsive" style="width:70%">
+<table class="table table-responsive table-bordered" style="width:70%">
     <thead>
         <tr>
             <th>Customer</th>
@@ -19,7 +19,6 @@
             foreach (var customer in Model)
 
             {
-
                 <tr>
                     <td>
                         @Html.ActionLink((string)customer.name, "Details", "Customer", new { id = @customer.Id}, null)
@@ -28,7 +27,6 @@
                         @customer.membershipType.name
                     </td>
                 </tr>
-
             }
         }
         else {
