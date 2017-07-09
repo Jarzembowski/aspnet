@@ -5,11 +5,24 @@ using System.Web;
 using System.Web.Mvc;
 using Vidly.Models;
 using Vidly.ViewModels;
+using System.Data.Entity;
 
 namespace Vidly.Controllers
 {
     public class MoviesController : Controller
     {
+        private ApplicationDbContext _context;
+
+        public MoviesController()
+        {
+            _context = new ApplicationDbContext();
+        }
+
+        //exclui o objeto da memória
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();
+        }
 
         // GET: /Movies/random
         public ActionResult Random()
@@ -47,22 +60,19 @@ namespace Vidly.Controllers
       }
 
 
-      public ActionResult Index(int? pageIndex, string sortBy) {
+      public ActionResult Index() {
 
-         if (!pageIndex.HasValue)
-         {
-            pageIndex = 1;
-         }
-
-         if (String.IsNullOrWhiteSpace(sortBy))
-         {
-            sortBy = "name";
-         }
-
-         return Content(String.Format("Pageindex={0}&SortBy={1}", pageIndex, sortBy));
+            //Eager loading - carrega os objetos relacionados ao objeto principal
+            var movies = _context.Movies.Include(m => m.genre).ToList();
+            // var customers = _context.Movies.Include(c => c.).ToList();
+            if (!movies.Any())
+                movies = null;
+                
+                                    
+            return View(movies);
 
 
-      }
+            }
 
       [Route("movies/released/{year}/{month:range(1,12)}")]
       public ActionResult ByReleaseDate(int year, int month)
@@ -99,6 +109,30 @@ namespace Vidly.Controllers
             return View(customers.Find(i => i.Id == id));
         }
 
+        public ActionResult New()
+        {
+            var movieGenres = _context.Genres.ToList();
+            var movieFormViewModel = new MovieFormViewModel
+            {
+                genres = movieGenres
+            };
+
+            return View("MovieForm",movieFormViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Save(Movie movie)
+        {
+        
+            using (var ctx = new ApplicationDbContext())
+            {
+                ctx.Movies.Attach(movie);
+                ctx.Entry(movie).State = EntityState.Added;  // or EntityState.Modified
+                ctx.SaveChanges();
+            }
+
+            return RedirectToAction("Index","Movies");
+        }
 
 
     }
